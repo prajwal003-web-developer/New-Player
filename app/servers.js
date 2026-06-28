@@ -1,6 +1,6 @@
 export const servers = [{
-    name:'Main-1 (Vidfast)',
-    url:'https://vidfast.pro/'
+    name:'Main-1 (VidSync)',
+    url:'https://vidsync.live/embed/'
 },
 {
     name:"Main-2 (Mostly-Work)",

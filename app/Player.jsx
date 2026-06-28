@@ -35,8 +35,9 @@ export default function Player() {
   return (
     <iframe
       src={url}
+      style={{ width: "100%", height: "96dvh", margin: 0, border: "0" }}
       className="w-full h-full border-0"
-      allow="fullscreen; autoplay"
+      allow="fullscreen"
       allowFullScreen
     />
   );

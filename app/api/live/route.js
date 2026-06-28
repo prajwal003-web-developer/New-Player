@@ -6,6 +6,10 @@ export async function GET(request) {
     const res = await fetch("https://dami-tv.pro/papi/api/streams")
     const myData = await res.json()
 
+    const res2 = await fetch("https://dami-tv.pro/papi/matches/cricket")
+    const myData2 = await res2.json()
+
+
     const data = myData?.streams?.map((itm)=>{
         return {
             name:itm?.category,
@@ -19,7 +23,24 @@ export async function GET(request) {
 
         }
     })
+
+    const data2 = myData2?.streams?.map((itm)=>{
+        return {
+            name:itm?.category,
+            title:itm?.title,
+            image:itm?.poster,
+            teams:itm?.teams,
+            status:itm?.status,
+            league:itm?.league,
+            sources:[{
+                 "name": "Server 1",
+                "embed": `https://dami-tv.pro/embed/?id=${itm?.sources[0].id}`
+            }],
+            embed:itm?.sources[0].id
+
+        }
+    })
     return NextResponse.json({
-       data:data
+       data:[...data,...data2]
     })
 }

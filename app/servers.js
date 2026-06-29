@@ -4,7 +4,7 @@ export const servers = [{
 },
 {
     name:"Main-2 (Mostly-Work)",
-    url:'https://vidsrc-embed.ru/embed/'
+    url:'https://vidsrc.to/embed/'
 },{
     name:"Main-3 (Videasy)",
     url:"https://player.videasy.to/"

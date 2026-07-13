@@ -3,27 +3,19 @@ import { NextResponse } from "next/server";
 
 export async function GET(request) {
 
-    // const res = await fetch("https://streamed.pk/api/matches/cricket")
-    // const data = await res.json()
+    const res = await fetch("https://api.cdnlivetv.is/api/v1/events/sports/soccer/?user=cdnlivetv&plan=free")
+    const data = await res.json()
 
-    // const now = new Date();
+    const res1 = await fetch("https://api.cdnlivetv.is/api/v1/events/sports/cricket/?user=cdnlivetv&plan=free")
+    const data1 = await res1.json()
 
-    // const retData1 = getData(data)
-   
+    const retData = getData(data["cdn-live-tv"]?.Soccer)
+    const retData1 = getData(data1["cdn-live-tv"]?.Cricket)
 
 
 
     return NextResponse.json({
-        data: [{
-            name:"Test",
-            title:"Test",
-            image:`https://dummyimage.com/600x400/000/fff&text=Test Match`,
-            status:"live",
-            sources:[],
-            embed:"https://embed.st/embed/admin/admin-willow-cricket/1",
-            league:"Not Your League"
-
-        }]
+        data:[...retData,...retData1]
         // check:data
     })
 
@@ -34,21 +26,19 @@ const getData = (data) => {
     const myData = data?.map(itm => {
 
 
-       
-
-        let sources = itm?.iframes?.map((iframe) => ({
-                name: iframe.server,
+        let sources = itm?.channels?.map((iframe) => ({
+                name: iframe.channel_name,
                 embed: iframe.url,
             }));
         
         return {
-            name: itm?.title,
+            name: itm?.event,
             title: itm?.category,
-            league: "unknown",
-            embed: itm?.iframes[1]?.url,
+            league: itm?.tournament,
+            embed: itm?.channels[0]?.url,
             sources: sources,
-            status: status,
-            image: itm?.poster || `https://dummyimage.com/600x400/000/fff&text=${itm?.tag}`
+            status: itm.status!="NS"?"live":"Not Started",
+            image: itm?.homeTeamIMG || itm?.awayTeamIMG || `https://dummyimage.com/600x400/000/fff&text=${itm?.homeTeam} vs ${itm?.awayTeam}`
         }
     })
 

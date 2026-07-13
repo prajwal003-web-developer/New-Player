@@ -11,7 +11,7 @@ export default function LivePlayer() {
   let uri = urlFull;
 
   if (!urlFull) {
-    uri = "https://dami-tv.pro/embed/?id=" + uriId;
+    uri = uriId;
   }
 
   return (

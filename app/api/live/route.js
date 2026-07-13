@@ -15,7 +15,7 @@ export async function GET(request) {
 
 
     return NextResponse.json({
-        data:[...retData,...retData1]
+        data:[...retData1,...retData]
         // check:data
     })
 
@@ -23,7 +23,9 @@ export async function GET(request) {
 
 
 const getData = (data) => {
-    const myData = data?.map(itm => {
+
+    const data1 = data?.filter(itm=>itm.channels.length!=0)
+    const myData = data1?.map(itm => {
 
 
         let sources = itm?.channels?.map((iframe) => ({

@@ -34,12 +34,21 @@ const getData = (data, now) => {
 
         const status = now >= kickoff && now <= endTime ? "live" : "";
 
-        const sources = itm?.iframes
+        let sources;
+        if(itm?.iframes.length>1){
+            sources =   itm?.iframes
             ?.slice(1, -1)
             .map((iframe) => ({
                 name: iframe.server,
                 embed: iframe.url,
             }));
+        }else{
+            sources  = itm?.iframes
+            ?.map((iframe) => ({
+                name: iframe.server,
+                embed: iframe.url,
+            }));
+        }
         return {
             name: itm?.slug,
             title: itm?.tag,

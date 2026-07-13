@@ -6,12 +6,33 @@ export async function GET(request) {
     const res = await fetch("https://api.cdnlivetv.is/api/v1/events/sports/soccer/?user=cdnlivetv&plan=free")
     const data = await res.json()
 
-    const res1 = await fetch("https://api.cdnlivetv.is/api/v1/events/sports/cricket/?user=cdnlivetv&plan=free")
+    const res1 = await fetch("https://api.cdnlivetv.is/api/v1/channels/?user=cdnlivetv&plan=free")
     const data1 = await res1.json()
 
     const retData = getData(data["cdn-live-tv"]?.Soccer)
-    const retData1 = getData(data1["cdn-live-tv"]?.Cricket)
+    let x = "Xmmals"
+    let y = x.toLowerCase()
+    const retDataToProcess = data1.channels?.filter(itm=>{
+        if(itm.name.toLowerCase().includes("willow") || itm.name.toLowerCase().includes("sony") || itm.name.includes("star") || itm.name.toLowerCase().includes("cricket")|| itm.name.toLowerCase().includes("sport")){
+            return itm
+        }
+    })
 
+    const retData1 = retDataToProcess?.map((itm)=>{
+        return {
+                name:itm?.name,
+                league:itm?.code,
+                title:itm?.name,
+                image:itm?.image ,
+                status:itm?.status,
+                isLive:true,
+                embed:itm?.url,
+                sources:[{
+                    name:"Source-1",
+                    embed:itm?.url
+                }]
+            }
+    })
 
 
     return NextResponse.json({

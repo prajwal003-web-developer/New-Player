@@ -3,56 +3,48 @@ import { NextResponse } from "next/server";
 
 export async function GET(request) {
 
-    const res = await fetch("https://api.esportex.site/api/streams")
-    const data = await res.json()
+    // const res = await fetch("https://streamed.pk/api/matches/cricket")
+    // const data = await res.json()
 
-    const now = new Date();
+    // const now = new Date();
 
-    const retData1 = getData(data["football"], now)
-    const retData2 = getData(data["other"], now)
-     const retData0 = getData(data["cricket"], now)
+    // const retData1 = getData(data)
+   
 
 
 
     return NextResponse.json({
-        data: [...retData0,...retData1 ,...retData2],
+        data: [{
+            name:"Test",
+            title:"Test",
+            image:`https://dummyimage.com/600x400/000/fff&text=Test Match`,
+            status:"live",
+            sources:[],
+            embed:"https://embed.st/embed/admin/admin-willow-cricket/1",
+            league:"Not Your League"
+
+        }]
         // check:data
     })
 
 }
 
 
-const getData = (data, now) => {
+const getData = (data) => {
     const myData = data?.map(itm => {
 
 
-        const kickoff = new Date(itm.kickoff.replace(" ", "T"));
-        kickoff.setHours(kickoff.getHours() - 1);
+       
 
-        const endTime = new Date(itm.endTime.replace(" ", "T"));
-        endTime.setHours(endTime.getHours() - 1);
-
-        const status = now >= kickoff && now <= endTime ? "live" : "";
-
-        let sources;
-        if(itm?.iframes.length>1){
-            sources =   itm?.iframes
-            ?.slice(1, -1)
-            .map((iframe) => ({
+        let sources = itm?.iframes?.map((iframe) => ({
                 name: iframe.server,
                 embed: iframe.url,
             }));
-        }else{
-            sources  = itm?.iframes
-            ?.map((iframe) => ({
-                name: iframe.server,
-                embed: iframe.url,
-            }));
-        }
+        
         return {
-            name: itm?.slug,
-            title: itm?.tag,
-            league: itm?.league,
+            name: itm?.title,
+            title: itm?.category,
+            league: "unknown",
             embed: itm?.iframes[1]?.url,
             sources: sources,
             status: status,
